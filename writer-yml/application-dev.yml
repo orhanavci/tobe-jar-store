@@ -1,0 +1,45 @@
+server:
+  port: 8003
+  servlet:
+    context-path: /cep-data-writer
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  banner:
+    location:  classpath:banner-jforce.txt
+  data:
+    mongodb:
+      uri: mongodb://cep_dev_admin:Ty3_3j3d@10.110.216.64:27017/?authSource=cep_dev
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    hikari:
+      connectionTimeout: 600000
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      minimum-idle: 20
+      maximum-pool-size: 30
+    password: Passw0rd
+    url: jdbc:oracle:thin:@//10.110.216.85:1521/ELBRUS
+    username: CEP_DEV
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        format-sql: true
+    show-sql: false
+kafka:
+  bootstrap-address: ${BOOTSTRAP_ADDRESS:10.110.217.72:9092}
+  consumer-topic-name: cep-rule-orchestrator-producer-topic
+  consumer-group-id: cep-rule-orchestrator-producer-topic-group
+  consumer-count: 13 #Partition sayısı + 3 consumer veriyoruz consumer down olması durumunda yedek oyuncular oyuna dahil olsun :D
+  action-organizer-writer-producer-topic-name: action-organizer-writer-producer
+  action-organizer-writer-producer-topic-group-id: action-organizer-writer-producer-group
+  message-request-size: 1572864000
+  buffer-memory: 1572864000
+  request-timeout-ms: 180000
+  delivery-timeout-ms: 180000
+  auto-offset-reset: earliest
+
+  

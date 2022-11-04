@@ -1,0 +1,65 @@
+server:
+  port: 8002
+  servlet:
+    context-path: /cep-rule-orchestrator
+spring:
+
+  main:
+    allow-bean-definition-overriding: true
+  banner:
+    location:  classpath:banner-jforce.txt
+  datasource:
+    hikari:
+      connectionTimeout: 600000
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      minimum-idle: 20
+      maximum-pool-size: 30
+    password: Passw0rd
+    url: jdbc:oracle:thin:@//10.110.216.85:1521/ELBRUS
+    username: CEP_DEV
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    mongodb:
+      uri: mongodb://cep_dev_admin:Ty3_3j3d@10.110.216.64:27017/?authSource=cep_dev
+
+kafka:
+  bootstrap-address: ${BOOTSTRAP_ADDRESS:10.110.217.72:9092}
+  consumer-topic-name: cep-reader-topic
+  producer-topic-name: cep-rule-orchestrator-producer-topic
+  consumer-topic-name-group-id: cep-rule-orchestrator-consumer-group
+  producer-topic-name-group-id: cep-rule-orchestrator-producer-group
+  action-organizer-topic-name: action-organizer-producer
+  action-organizer-topic-name-group-id: action-organizer-producer-group
+  action-organizer-writer-producer-topic-name: action-organizer-writer-producer
+  action-organizer-writer-producer-topic-group-id: action-organizer-writer-producer-group
+  
+  consumer-count: 13 #Partition sayısı + 3 consumer veriyoruz consumer down olması durumunda yedek oyuncular oyuna dahil olsun :D
+  producer-count: 13
+  message-request-size: 52428800
+  buffer-memory: 52428800
+  request-timeout-ms: 180000
+  delivery-timeout-ms: 180000
+  auto-offset-reset: earliest
+
+odm:
+  action-service-url: http://avsprdap01.avivasa.local:9090/DecisionService/rest/v1/cep_rules/cep_rules/WADL
+  action-organizer-service-url: http://avsprdap01.avivasa.local:9090/DecisionService/rest/v1/cep_rules/action_organizer/WADL
+
+
+rule-orchestrator-producer-topic:
+  topic-name: cep-rule-orchestrator-producer-topic
+  partition-count: 10
+  replicas-count: 1
+  max-message-byte: 52428800
+  cleanup-policy: delete
+  
+kafka-admin:
+  bootstrap-address: ${BOOTSTRAP_ADDRESS:10.110.217.72:9092}
+
+jsoup-http-client:
+  max-body-size: 0
+  ignore-content-type: true
+  ignore-http-errors: true
+  timeout: 30000

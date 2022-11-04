@@ -17,7 +17,7 @@ spring:
       driver-class-name: oracle.jdbc.driver.OracleDriver
       minimum-idle: 20
       maximum-pool-size: 30
-    password: Passw0rd
+    password: Ty3_3j3d
     url: jdbc:oracle:thin:@//10.110.216.85:1521/ELBRUS
     username: CEP_DEV
   jpa:
